@@ -1,12 +1,23 @@
 package sistema;
 
+import dominio.Centro;
 import interfaz.*;
+import tads.grafo.Grafo;
 
 public class ImplementacionSistema implements Sistema  {
 
+    private Grafo<Centro> grafoCentros;
+    private int maxCentros;
+
     @Override
     public Retorno inicializarSistema(int maxCentros) {
-        return Retorno.noImplementada();
+        if (maxCentros <= 3) {
+            return Retorno.error1("maxCentros debe ser mayor a 3");
+        }
+
+        grafoCentros = new Grafo<>(maxCentros, false);
+
+        return Retorno.ok();
     }
 
     @Override
