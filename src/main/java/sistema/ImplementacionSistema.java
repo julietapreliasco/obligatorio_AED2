@@ -1,13 +1,20 @@
 package sistema;
 
 import dominio.Centro;
+import dominio.Mercaderia;
+import dominio.WrapperMercaderia;
 import interfaz.*;
+import tads.ABB.ABB;
 import tads.grafo.Grafo;
 
-public class ImplementacionSistema implements Sistema  {
+public class ImplementacionSistema implements Sistema {
 
     private Grafo<Centro> grafoCentros;
     private int maxCentros;
+
+    private ABB<Mercaderia> abbPorId;
+    private ABB<WrapperMercaderia> abbPorCodigo;
+    private ABB<Mercaderia>[] abbCategorias;
 
     @Override
     public Retorno inicializarSistema(int maxCentros) {
@@ -17,12 +24,57 @@ public class ImplementacionSistema implements Sistema  {
 
         grafoCentros = new Grafo<>(maxCentros, false);
 
+        abbPorId = new ABB<>();
+        abbPorCodigo = new ABB<>();
+        abbCategorias = new ABB[Categoria.values().length];
+
+        for (Categoria cat : Categoria.values()) {
+            abbCategorias[cat.getIndice()] = new ABB<>();
+        }
+
         return Retorno.ok();
     }
 
+    private boolean parametrosValidos(String... datos) {
+        for (String dato : datos) {
+            if (dato == null || dato.isEmpty() || dato.isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean codigoMercaderiaValido(String codigo) {
+        return codigo.matches("^[a-zA-Z]{2}-[0-9]{3}-[a-zA-Z0-9]{6}$");
+    }
+
     @Override
-    public Retorno registrarMercaderia(String id, String codigo, String descripcion, boolean fragil, Categoria categoria) {
-        return Retorno.noImplementada();
+    public Retorno registrarMercaderia(String id, String codigo, String descripcion, boolean fragil,
+            Categoria categoria) {
+        // Si alguno de los parámetros es vacío o null.
+        if (categoria == null || !parametrosValidos(id, codigo, descripcion)) {
+            return Retorno.error1("Todos los campos son requeridos");
+        }
+        // Si codigo no tiene el formato válido.
+        if (!codigoMercaderiaValido(codigo)) {
+            return Retorno.error2("El código no tiene el formato válido");
+        }
+        // Si ya existe una mercadería registrada con ese id.
+        if (abbPorId.pertenece(new Mercaderia(id))) {
+            return Retorno.error3("Ya existe una mercadería registrada con ese id");
+        }
+        // Si ya existe una mercadería registrada con ese codigo.
+        if (abbPorCodigo.pertenece(new WrapperMercaderia(new Mercaderia(null, codigo, null, false, null)))) {
+            return Retorno.error4("Ya existe una mercadería registrada con ese código");
+        }
+
+        Mercaderia mercaderia = new Mercaderia(id, codigo, descripcion, fragil, categoria);
+        abbPorId.insertar(mercaderia);
+        WrapperMercaderia wrapperMercaderia = new WrapperMercaderia(mercaderia);
+        abbPorCodigo.insertar(wrapperMercaderia);
+
+        abbCategorias[categoria.getIndice()].insertar(mercaderia);
+        return Retorno.ok();
     }
 
     @Override
