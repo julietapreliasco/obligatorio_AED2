@@ -2,6 +2,7 @@ package sistema;
 
 import dominio.Centro;
 import dominio.Mercaderia;
+import dominio.ResultadoBusqueda;
 import dominio.WrapperMercaderia;
 import interfaz.*;
 import tads.ABB.ABB;
@@ -80,7 +81,20 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno buscarMercaderiaPorId(String id) {
-        return Retorno.noImplementada();
+
+        if (!parametrosValidos(id)) {
+            return Retorno.error1("Se debe pasar un id");
+        }
+
+        ResultadoBusqueda<Mercaderia> resultado = abbPorId.obtenerConCantidad(new Mercaderia(id));
+
+        if (!resultado.encontrado()) {
+            return Retorno.error2("No existe mercadería registrada con ese id");
+        }
+
+        Mercaderia mer = resultado.getDato();
+
+        return Retorno.ok(resultado.getCantRecorridos(), mer.toString());
     }
 
     @Override
