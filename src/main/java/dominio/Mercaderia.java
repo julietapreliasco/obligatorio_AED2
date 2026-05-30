@@ -65,4 +65,20 @@ public class Mercaderia implements Comparable<Mercaderia> {
     public int compareTo(Mercaderia o) {
         return this.id.compareTo(o.id);
     }
+
+    @Override
+    public String toString(){
+        StringBuilder aux = new StringBuilder();
+        aux.append(id);
+        aux.append(";");
+        aux.append(codigo);
+        aux.append(";");
+        aux.append(descripcion);
+        aux.append(";");
+        aux.append(fragil);
+        aux.append(";");
+        aux.append(categoria.getTexto());
+
+        return aux.toString();
+    }
 }
