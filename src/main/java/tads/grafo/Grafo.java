@@ -9,14 +9,16 @@ public class Grafo<T> {
     private T[] vertices;
     private Arista[][] matAdy;
 
-    // lo siguiente solo evita el warning del compilador por el casteo de Object[] a T[]
+    // lo siguiente solo evita el warning del compilador por el casteo de Object[] a
+    // T[]
     @SuppressWarnings("unchecked")
     public Grafo(int unTope, boolean esDir) {
 
         tope = unTope;
         cantidad = 0;
 
-        // Acá creamos un array de Object y se castea a T[] porque Java no permite crear arrays genéricos directamente
+        // Acá creamos un array de Object y se castea a T[] porque Java no permite crear
+        // arrays genéricos directamente
         vertices = (T[]) new Object[tope];
         matAdy = new Arista[tope][tope];
 
@@ -142,7 +144,7 @@ public class Grafo<T> {
         for (int j = 0; j < tope; j++) {
 
             if (matAdy[pos][j].isExiste()) {
-                retorno.insertar(vertices[j]);
+                retorno.insertarAlInicio(vertices[j]);
             }
         }
 
@@ -159,7 +161,7 @@ public class Grafo<T> {
         for (int i = 0; i < tope; i++) {
 
             if (matAdy[i][pos].isExiste()) {
-                retorno.insertar(vertices[i]);
+                retorno.insertarAlInicio(vertices[i]);
             }
         }
 

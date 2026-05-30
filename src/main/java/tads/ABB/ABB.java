@@ -59,31 +59,18 @@ public class ABB<T extends Comparable<T>> implements IABB<T> {
     }
 
     @Override
-    public void listarAsc() {
-        listarAsc(this.raiz);
+    public ListaImp<T> listarAsc() {
+        ListaImp<T> lista = new ListaImp<>();
+        listarAsc(this.raiz, lista);
+        return lista;
     }
 
-    private void listarAsc(Nodo<T> nodo) {
+    private void listarAsc(Nodo<T> nodo, ListaImp<T> lista) {
         if (nodo != null) {
-            listarAsc(nodo.getIzq());
-            System.out.print("- " + nodo.getDato().toString());
-            listarAsc(nodo.getDer());
+            listarAsc(nodo.getDer(), lista);
+            lista.insertarAlInicio(nodo.getDato());
+            listarAsc(nodo.getIzq(), lista);
         }
-    }
-
-    @Override
-    public void listarDesc() {
-
-    }
-
-    @Override
-    public ListaImp<T> obtenerAsc() {
-        return null;
-    }
-
-    @Override
-    public ListaImp<T> obtenerDesc() {
-        return null;
     }
 
     @Override

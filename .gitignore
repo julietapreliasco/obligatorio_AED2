@@ -1,0 +1,30 @@
+# Mac
+.DS_Store
+
+# IntelliJ / compilados
+out/
+*.class
+
+# IDE
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Compilados Java
+*.class
+
+# Carpetas de build / output
+out/
+target/
+build/
+
+# Logs
+*.log
