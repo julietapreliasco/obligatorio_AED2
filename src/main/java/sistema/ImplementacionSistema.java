@@ -126,7 +126,21 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno buscarMercaderiaPorCodigo(String codigo) {
-        return Retorno.noImplementada();
+        if (!parametrosValidos(codigo)) {
+            return Retorno.error1("Se debe pasar un código");
+        }
+
+        WrapperMercaderia wrapperMercaderia = new WrapperMercaderia(new Mercaderia(null, codigo, null, false, null));
+        ResultadoBusqueda<WrapperMercaderia> resultado = abbPorCodigo
+                .obtenerConCantidad(wrapperMercaderia);
+
+        if (!resultado.encontrado()) {
+            return Retorno.error2("No existe mercadería registrada con ese código");
+        }
+
+        Mercaderia mer = resultado.getDato().getMercaderia();
+
+        return Retorno.ok(resultado.getCantRecorridos(), mer.toString());
     }
 
     @Override
