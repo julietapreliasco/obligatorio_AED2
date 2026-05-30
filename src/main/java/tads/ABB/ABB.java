@@ -75,6 +75,21 @@ public class ABB<T extends Comparable<T>> implements IABB<T> {
     }
 
     @Override
+    public ListaImp<T> listarDesc() {
+        ListaImp<T> lista = new ListaImp<>();
+        listarDesc(this.raiz, lista);
+        return lista;
+    }
+
+    private void listarDesc(Nodo<T> nodo, ListaImp<T> lista) {
+        if (nodo != null) {
+            listarDesc(nodo.getIzq(), lista);
+            lista.insertarAlInicio(nodo.getDato());
+            listarDesc(nodo.getDer(), lista);
+        }
+    }
+
+    @Override
     public void imprimirElementosDeNivel(int nivel) {
 
     }

@@ -11,6 +11,8 @@ public interface IABB<T> {
 
     ListaImp<T> listarAsc();
 
+    ListaImp<T> listarDesc();
+
     void imprimirElementosDeNivel(int nivel);
 
 }
