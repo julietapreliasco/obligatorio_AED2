@@ -1,5 +1,6 @@
 package tads.ABB;
 
+import dominio.ResultadoBusqueda;
 import tads.lista.ListaImp;
 
 public class ABB<T extends Comparable<T>> implements IABB<T> {
@@ -40,7 +41,7 @@ public class ABB<T extends Comparable<T>> implements IABB<T> {
         return pertenece(this.raiz, valor);
     }
 
-    public boolean pertenece(Nodo<T> nodo, T valor) {
+    private boolean pertenece(Nodo<T> nodo, T valor) {
         if (nodo != null) {
             if (nodo.getDato().compareTo(valor) == 0) {
                 return true;
@@ -89,6 +90,25 @@ public class ABB<T extends Comparable<T>> implements IABB<T> {
     @Override
     public void imprimirElementosDeNivel(int nivel) {
 
+    }
+
+    public ResultadoBusqueda<T> obtenerConCantidad(T valor) {
+        return obtenerConCantidad(this.raiz, valor, 0);
+    }
+
+    private ResultadoBusqueda<T> obtenerConCantidad(Nodo<T> nodo, T valor, int cant) {
+        if (nodo != null) {
+            cant++;
+            if (nodo.getDato().compareTo(valor) == 0) {
+                return new ResultadoBusqueda<>(nodo.getDato(), cant);
+            } else if (valor.compareTo(nodo.getDato()) > 0) {
+                return obtenerConCantidad(nodo.getDer(), valor, cant);
+            } else {
+                return obtenerConCantidad(nodo.getIzq(), valor, cant);
+            }
+        }
+
+        return new ResultadoBusqueda<>(null, cant);
     }
 
     protected static class Nodo<T> {
