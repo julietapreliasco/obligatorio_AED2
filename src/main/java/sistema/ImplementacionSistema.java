@@ -99,7 +99,15 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarMercaderiasPorIdAscendente() {
-        return Retorno.noImplementada();
+        ListaImp<Mercaderia> lista = abbPorId.listarAsc();
+        StringBuilder aux = new StringBuilder();
+        for (Mercaderia m : lista) {
+            if (aux.length() > 0) {
+                aux.append("|");
+            }
+            aux.append(m.toString());
+        }
+        return Retorno.ok(aux.toString());
     }
 
     @Override

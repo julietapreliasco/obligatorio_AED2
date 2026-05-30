@@ -9,13 +9,7 @@ public interface IABB<T> {
 
     T borrarMinimo();
 
-    void listarAsc();
-
-    void listarDesc();
-
-    ListaImp<T> obtenerAsc();
-
-    ListaImp<T> obtenerDesc();
+    ListaImp<T> listarAsc();
 
     void imprimirElementosDeNivel(int nivel);
 
