@@ -1,7 +1,5 @@
 package dominio;
 
-import interfaz.Categoria;
-
 public class Mercaderia implements Comparable<Mercaderia> {
     private String id;
     private String codigo;

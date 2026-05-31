@@ -1,9 +1,6 @@
 package sistema;
 
-import dominio.Centro;
-import dominio.Mercaderia;
-import dominio.ResultadoBusqueda;
-import dominio.WrapperMercaderia;
+import dominio.*;
 import interfaz.*;
 import tads.ABB.ABB;
 import tads.grafo.Grafo;
@@ -158,7 +155,17 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarMercaderiasPorCategoria(Categoria unaCategoria) {
-        return Retorno.noImplementada();
+        ABB<Mercaderia> abb = abbCategorias[unaCategoria.getIndice()];
+
+        ListaImp<Mercaderia> lista = abb.listarAsc();
+        StringBuilder aux = new StringBuilder();
+        for (Mercaderia m : lista) {
+            if (aux.length() > 0) {
+                aux.append("|");
+            }
+            aux.append(m.toString());
+        }
+        return Retorno.ok(aux.toString());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package sistema;
 
-import interfaz.Categoria;
+import dominio.Categoria;
 import interfaz.Retorno;
 import interfaz.Sistema;
 import org.junit.jupiter.api.BeforeEach;
