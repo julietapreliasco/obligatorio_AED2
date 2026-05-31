@@ -1,20 +1,21 @@
 package tads.grafo;
 
-import java.util.Objects;
-
 public class Arista {
 
     private boolean existe;
-    private int peso;
+    private int distancia;
+    private int tiempo;
 
     public Arista() {
         this.existe = false;
-        this.peso = 0;
+        this.distancia = 0;
+        this.tiempo = 0;
     }
 
-    public Arista(int unPeso) {
+    public Arista(int distancia, int tiempo) {
         this.existe = true;
-        this.peso = unPeso;
+        this.distancia = distancia;
+        this.tiempo = tiempo;
     }
 
     public boolean isExiste() {
@@ -25,11 +26,19 @@ public class Arista {
         this.existe = existe;
     }
 
-    public int getPeso() {
-        return peso;
+    public int getDistancia() {
+        return distancia;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    public void setDistancia(int distancia) {
+        this.distancia = distancia;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
     }
 }
