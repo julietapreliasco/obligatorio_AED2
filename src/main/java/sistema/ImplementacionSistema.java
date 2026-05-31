@@ -20,7 +20,7 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error1("maxCentros debe ser mayor a 3");
         }
 
-        grafoCentros = new Grafo(maxCentros, false);
+        grafoCentros = new Grafo(maxCentros, true);
 
         abbPorId = new ABB<>();
         abbPorCodigo = new ABB<>();
@@ -189,7 +189,34 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarConexion(String codigoOrigen, String codigoDestino, int distancia, int tiempo) {
-        return Retorno.noImplementada();
+        if (!parametrosValidos(codigoOrigen, codigoDestino)) {
+            return Retorno.error1("Todos los campos son requeridos");
+        }
+
+        if(!grafoCentros.existeVertice(codigoOrigen))
+        {
+            return Retorno.error2("No existe el centro logístico de origen");
+        }
+
+        if(!grafoCentros.existeVertice(codigoDestino))
+        {
+            return Retorno.error3("No existe el centro logístico de destino");
+        }
+
+        if (distancia <= 0) {
+            return Retorno.error4("La distancia no puede ser menor a cero");
+        }
+
+        if (tiempo <= 0) {
+            return Retorno.error5("El tiempo no puede ser menor a cero");
+        }
+
+        if(grafoCentros.existeArista(codigoOrigen, codigoDestino)){
+            return Retorno.error6("Ya existe una conexión entre el origen y el destino");
+        }
+
+        grafoCentros.agregarArista(codigoOrigen, codigoDestino, distancia, tiempo);
+        return Retorno.ok();
     }
 
     @Override

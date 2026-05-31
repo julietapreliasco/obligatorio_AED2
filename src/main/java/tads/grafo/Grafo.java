@@ -100,13 +100,14 @@ public class Grafo {
     }
 
     // PRE: existeVertice(origen) && existeVertice(destino) && !existeArista
-    public void agregarArista(String origen, String destino, int peso) {
+    public void agregarArista(String origen, String destino, int distancia, int tiempo) {
 
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
 
         matAdy[posOrigen][posDestino].setExiste(true);
-        matAdy[posOrigen][posDestino].setPeso(peso);
+        matAdy[posOrigen][posDestino].setDistancia(distancia);
+        matAdy[posOrigen][posDestino].setTiempo(tiempo);
     }
 
     // PRE: existeVertice(origen) && existeVertice(destino)
