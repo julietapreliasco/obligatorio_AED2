@@ -2,24 +2,19 @@ package tads.grafo;
 
 import tads.lista.ListaImp;
 
-public class Grafo<T> {
+public class Grafo {
 
     private int tope;
     private int cantidad;
-    private T[] vertices;
+    private String[] vertices;
     private Arista[][] matAdy;
 
-    // lo siguiente solo evita el warning del compilador por el casteo de Object[] a
-    // T[]
-    @SuppressWarnings("unchecked")
     public Grafo(int unTope, boolean esDir) {
 
         tope = unTope;
         cantidad = 0;
 
-        // Acá creamos un array de Object y se castea a T[] porque Java no permite crear
-        // arrays genéricos directamente
-        vertices = (T[]) new Object[tope];
+        vertices = new String[tope];
         matAdy = new Arista[tope][tope];
 
         if (esDir) {
@@ -65,11 +60,11 @@ public class Grafo<T> {
         return -1;
     }
 
-    private int obtenerPos(T vert) {
+    private int obtenerPos(String vert) {
 
         for (int i = 0; i < tope; i++) {
 
-            if (vert.equals(vertices[i])) {
+            if (vertices[i] != null && vert.equals(vertices[i])) {
                 return i;
             }
         }
@@ -78,7 +73,7 @@ public class Grafo<T> {
     }
 
     // PRE: !esLleno && !existeVertice
-    public void agregarVertice(T vert) {
+    public void agregarVertice(String vert) {
 
         int pos = obtenerPosLibre();
 
@@ -88,7 +83,7 @@ public class Grafo<T> {
     }
 
     // PRE: existeVertice
-    public void borrarVertice(T vert) {
+    public void borrarVertice(String vert) {
 
         int pos = obtenerPos(vert);
 
@@ -103,12 +98,12 @@ public class Grafo<T> {
         cantidad--;
     }
 
-    public boolean existeVertice(T vert) {
+    public boolean existeVertice(String vert) {
         return obtenerPos(vert) != -1;
     }
 
-    // existeVertice(origen) && existeVertice(destino) && !existeArista
-    public void agregarArista(T origen, T destino, int peso) {
+    // PRE: existeVertice(origen) && existeVertice(destino) && !existeArista
+    public void agregarArista(String origen, String destino, int peso) {
 
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
@@ -117,8 +112,8 @@ public class Grafo<T> {
         matAdy[posOrigen][posDestino].setPeso(peso);
     }
 
-    // existeVertice(origen) && existeVertice(destino)
-    public boolean existeArista(T origen, T destino) {
+    // PRE: existeVertice(origen) && existeVertice(destino)
+    public boolean existeArista(String origen, String destino) {
 
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
@@ -126,8 +121,8 @@ public class Grafo<T> {
         return matAdy[posOrigen][posDestino].isExiste();
     }
 
-    // existeVertice(origen) && existeVertice(destino) && existeArista
-    public void borrarArista(T origen, T destino) {
+    // PRE: existeVertice(origen) && existeVertice(destino) && existeArista
+    public void borrarArista(String origen, String destino) {
 
         int posOrigen = obtenerPos(origen);
         int posDestino = obtenerPos(destino);
@@ -135,11 +130,11 @@ public class Grafo<T> {
         matAdy[posOrigen][posDestino].setExiste(false);
     }
 
-    public ListaImp<T> verticesAdyacentes(T vert) {
+    public ListaImp<String> verticesAdyacentes(String vert) {
 
         int pos = obtenerPos(vert);
 
-        ListaImp<T> retorno = new ListaImp<>();
+        ListaImp<String> retorno = new ListaImp<>();
 
         for (int j = 0; j < tope; j++) {
 
@@ -152,11 +147,11 @@ public class Grafo<T> {
     }
 
     // PRE: existeVertice(vert)
-    public ListaImp<T> verticesIncidentes(T vert) {
+    public ListaImp<String> verticesIncidentes(String vert) {
 
         int pos = obtenerPos(vert);
 
-        ListaImp<T> retorno = new ListaImp<>();
+        ListaImp<String> retorno = new ListaImp<>();
 
         for (int i = 0; i < tope; i++) {
 

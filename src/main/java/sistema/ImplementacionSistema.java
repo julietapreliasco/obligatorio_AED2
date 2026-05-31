@@ -11,7 +11,7 @@ import tads.lista.ListaImp;
 
 public class ImplementacionSistema implements Sistema {
 
-    private Grafo<Centro> grafoCentros;
+    private Grafo grafoCentros;
     private int maxCentros;
 
     private ABB<Mercaderia> abbPorId;
@@ -24,7 +24,7 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error1("maxCentros debe ser mayor a 3");
         }
 
-        grafoCentros = new Grafo<>(maxCentros, false);
+        grafoCentros = new Grafo(maxCentros, false);
 
         abbPorId = new ABB<>();
         abbPorCodigo = new ABB<>();
