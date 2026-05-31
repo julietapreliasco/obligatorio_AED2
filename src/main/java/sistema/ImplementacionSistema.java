@@ -145,7 +145,15 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarMercaderiasPorCodigoAscendente() {
-        return Retorno.noImplementada();
+        ListaImp<WrapperMercaderia> lista = abbPorCodigo.listarAsc();
+        StringBuilder aux = new StringBuilder();
+        for (WrapperMercaderia wm : lista) {
+            if (aux.length() > 0) {
+                aux.append("|");
+            }
+            aux.append(wm.toString());
+        }
+        return Retorno.ok(aux.toString());
     }
 
     @Override
