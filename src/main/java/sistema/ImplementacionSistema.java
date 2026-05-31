@@ -9,7 +9,6 @@ import tads.lista.ListaImp;
 public class ImplementacionSistema implements Sistema {
 
     private Grafo grafoCentros;
-    private int maxCentros;
 
     private ABB<Mercaderia> abbPorId;
     private ABB<WrapperMercaderia> abbPorCodigo;
@@ -170,7 +169,22 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarCentroLogistico(String codigo, String nombre, String departamento, String direccion) {
-        return Retorno.noImplementada();
+        if (grafoCentros.esLleno()) {
+            return Retorno.error1("No se pueden registrar más centros");
+        }
+
+        if (!parametrosValidos(codigo, nombre, departamento, direccion)) {
+            return Retorno.error2("Todos los campos son requeridos");
+        }
+
+        if (grafoCentros.existeVertice(codigo)) {
+            return Retorno.error3("Ya existe un centro registrado con ese código");
+        }
+
+        Centro centro = new Centro(codigo, nombre, departamento, direccion);
+        grafoCentros.agregarVertice(centro);
+
+        return Retorno.ok();
     }
 
     @Override
