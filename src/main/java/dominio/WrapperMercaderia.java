@@ -20,4 +20,20 @@ public class WrapperMercaderia implements Comparable<WrapperMercaderia> {
     public int compareTo(WrapperMercaderia o) {
         return this.mercaderia.getCodigo().compareTo(o.getMercaderia().getCodigo());
     }
+
+    @Override
+    public String toString(){
+        StringBuilder aux = new StringBuilder();
+        aux.append(mercaderia.getId());
+        aux.append(";");
+        aux.append(mercaderia.getCodigo());
+        aux.append(";");
+        aux.append(mercaderia.getDescripcion());
+        aux.append(";");
+        aux.append(mercaderia.isFragil());
+        aux.append(";");
+        aux.append(mercaderia.getCategoria().getTexto());
+
+        return aux.toString();
+    }
 }
