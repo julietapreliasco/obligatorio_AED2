@@ -1,5 +1,7 @@
 package interfaz;
 
+import dominio.Categoria;
+
 /**
  * Provee una interfaz para interactuar con el sistema
  */
