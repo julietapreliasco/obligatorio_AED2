@@ -1,37 +1,46 @@
 package tads.grafo;
 
+import dominio.Centro;
 import tads.lista.ListaImp;
 
 public class Grafo {
 
     private int tope;
     private int cantidad;
-    private String[] vertices;
+    private boolean esDirigido;
+    private Centro[] vertices;
     private Arista[][] matAdy;
 
-    public Grafo(int unTope, boolean esDir) {
+    public Grafo(int tope) {
+        this.tope = tope;
+        this.cantidad = 0;
+        this.esDirigido = true;
+        this.vertices = new Centro[tope];
+        this.matAdy = new Arista[tope][tope];
+        for (int i = 0; i < tope; i++) {
+            for (int j = 0; j < tope; j++) {
+                this.matAdy[i][j] = new Arista();
+            }
+        }
+    }
 
+    public Grafo(int unTope, boolean esDir) {
         tope = unTope;
         cantidad = 0;
-
-        vertices = new String[tope];
+        esDirigido = esDir;
+        vertices = new Centro[tope];
         matAdy = new Arista[tope][tope];
 
         if (esDir) {
-
             for (int i = 0; i < tope; i++) {
                 for (int j = 0; j < tope; j++) {
                     matAdy[i][j] = new Arista();
                 }
             }
-
         } else {
-
             for (int i = 0; i < tope; i++) {
                 for (int j = i; j < tope; j++) {
-
                     Arista aux = new Arista();
-
                     matAdy[i][j] = aux;
                     matAdy[j][i] = aux;
                 }
@@ -49,48 +58,36 @@ public class Grafo {
 
     // PRE: !esLleno()
     private int obtenerPosLibre() {
-
         for (int i = 0; i < tope; i++) {
-
             if (vertices[i] == null) {
                 return i;
             }
         }
-
         return -1;
     }
 
     private int obtenerPos(String vert) {
-
         for (int i = 0; i < tope; i++) {
-
-            if (vertices[i] != null && vert.equals(vertices[i])) {
+            if (vertices[i] != null && vert.equals(vertices[i].getCodigo())) {
                 return i;
             }
         }
-
         return -1;
     }
 
     // PRE: !esLleno && !existeVertice
-    public void agregarVertice(String vert) {
-
+    public void agregarVertice(Centro vert) {
         int pos = obtenerPosLibre();
-
         vertices[pos] = vert;
-
         cantidad++;
     }
 
     // PRE: existeVertice
     public void borrarVertice(String vert) {
-
         int pos = obtenerPos(vert);
-
         vertices[pos] = null;
 
         for (int k = 0; k < tope; k++) {
-
             matAdy[pos][k].setExiste(false);
             matAdy[k][pos].setExiste(false);
         }
@@ -130,11 +127,11 @@ public class Grafo {
         matAdy[posOrigen][posDestino].setExiste(false);
     }
 
-    public ListaImp<String> verticesAdyacentes(String vert) {
+    public ListaImp<Centro> verticesAdyacentes(String vert) {
 
         int pos = obtenerPos(vert);
 
-        ListaImp<String> retorno = new ListaImp<>();
+        ListaImp<Centro> retorno = new ListaImp<>();
 
         for (int j = 0; j < tope; j++) {
 
@@ -147,11 +144,11 @@ public class Grafo {
     }
 
     // PRE: existeVertice(vert)
-    public ListaImp<String> verticesIncidentes(String vert) {
+    public ListaImp<Centro> verticesIncidentes(String vert) {
 
         int pos = obtenerPos(vert);
 
-        ListaImp<String> retorno = new ListaImp<>();
+        ListaImp<Centro> retorno = new ListaImp<>();
 
         for (int i = 0; i < tope; i++) {
 
