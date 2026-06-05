@@ -221,7 +221,27 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno redCentrosPorCantidadDeConexiones(String codigoOrigen, int cantidad) {
-        return Retorno.noImplementada();
+        if (cantidad < 0) {
+            return Retorno.error1("La cantidad no puede ser menor a cero");
+        }
+
+        if (!parametrosValidos(codigoOrigen)) {
+            return Retorno.error2("Debe ingresar el código del centro de origen");
+        }
+
+        if (!grafoCentros.existeVertice(codigoOrigen)) {
+            return Retorno.error3("El centro logístico no está registrado");
+        }
+
+        ListaImp<Centro> lista = grafoCentros.centrosHastaCantidadConexiones(codigoOrigen, cantidad);
+        StringBuilder aux = new StringBuilder();
+        for (Centro c : lista) {
+            if (aux.length() > 0) {
+                aux.append("|");
+            }
+            aux.append(c.toString());
+        }
+        return Retorno.ok(aux.toString());
     }
 
     @Override
