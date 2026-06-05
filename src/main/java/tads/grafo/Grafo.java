@@ -163,8 +163,8 @@ public class Grafo {
         return retorno;
     }
 
-    //bfs por nivel
-    public ListaImp<Centro> centrosHastaCantidadConexiones(String codigoOrigen, int cantidad){
+    // bfs por nivel
+    public ListaImp<Centro> centrosHastaCantidadConexiones(String codigoOrigen, int cantidad) {
         boolean[] visitados = new boolean[tope];
 
         int inicio = obtenerPos(codigoOrigen);
@@ -175,28 +175,109 @@ public class Grafo {
 
         visitados[inicio] = true;
 
-        cola.encolar(new Tupla(inicio,0));
+        cola.encolar(new Tupla(inicio, 0));
 
-        while(!cola.esVacia()){
+        while (!cola.esVacia()) {
             Tupla tupla = cola.desencolar();
 
             int pos = tupla.getPos();
             int nivel = tupla.getNivel();
 
             if (nivel < cantidad) {
-                for  (int j = 0; j < tope; j++) {
-                  if(matAdy[pos][j].isExiste() && !visitados[j]){
+                for (int j = 0; j < tope; j++) {
+                    if (matAdy[pos][j].isExiste() && !visitados[j]) {
 
-                    cola.encolar( new Tupla(j, nivel +1) );
+                        cola.encolar(new Tupla(j, nivel + 1));
 
-                    visitados[j] = true;
+                        visitados[j] = true;
 
-                    centrosOrdenados.insertar(vertices[j]);
-                  }
+                        centrosOrdenados.insertar(vertices[j]);
+                    }
                 }
             }
         }
         return centrosOrdenados.listarAsc();
+    }
+
+    public ResultadoDijkstra dijkstra(String codigoOrigen, String codigoDestino) {
+        int[] distancias = new int[vertices.length];
+        boolean[] visitados = new boolean[vertices.length];
+        int[] anteriores = new int[vertices.length];
+
+        for (int i = 0; i < distancias.length; i++) {
+            distancias[i] = Integer.MAX_VALUE;
+            visitados[i] = false;
+            anteriores[i] = -1;
+        }
+
+        int posOrigen = this.obtenerPos(codigoOrigen);
+        int posDestino = this.obtenerPos(codigoDestino);
+
+        distancias[posOrigen] = 0;
+
+        for (int i = 0; i < vertices.length; i++) {
+            int posVerMenorCosto = this.obtenerPosVerticeMenorCosto(distancias, visitados);
+
+            if (posVerMenorCosto == -1) {
+                break;
+            }
+            visitados[posVerMenorCosto] = true;
+
+            if (posVerMenorCosto == posDestino) {
+                break;
+            }
+
+            for (int j = 0; j < vertices.length; j++) {
+                if (matAdy[posVerMenorCosto][j].isExiste() && !visitados[j]) {
+                    int nuevaDistancia = distancias[posVerMenorCosto] + matAdy[posVerMenorCosto][j].getDistancia();
+                    if (distancias[j] > nuevaDistancia) {
+                        distancias[j] = nuevaDistancia;
+                        anteriores[j] = posVerMenorCosto;
+                    }
+                }
+            }
+        }
+
+        if (distancias[posDestino] == Integer.MAX_VALUE) {
+            return new ResultadoDijkstra(0, "", false);
+        }
+
+        String camino = armarCamino(posOrigen, posDestino, anteriores);
+        return new ResultadoDijkstra(distancias[posDestino], camino, true);
+    }
+
+
+    private int obtenerPosVerticeMenorCosto(int[] costos, boolean[] visitados) {
+        int minPos = -1;
+        int minCosto = Integer.MAX_VALUE;
+        for (int i = 0; i < costos.length; i++) {
+            if (costos[i] < minCosto && !visitados[i]) {
+                minPos = i;
+                minCosto = costos[i];
+            }
+        }
+        return minPos;
+    }
+
+    private String armarCamino(int posOrigen, int posDestino, int[] anteriores) {
+        String camino = "";
+        int actual = posDestino;
+
+        while (actual != -1) {
+            if (camino.isEmpty()) {
+                camino = vertices[actual].toString();
+            } else {
+                camino = vertices[actual].toString() + "|" + camino;
+            }
+
+            if (actual == posOrigen) {
+                break;
+            }
+
+            actual = anteriores[actual];
+        }
+
+        return camino;
     }
 
 }

@@ -246,6 +246,14 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno viajeCostoMinimoDistancia(String codigoOrigen, String codigoDestino) {
+        if (!parametrosValidos(codigoOrigen, codigoDestino)) {
+            return Retorno.error1("Debe ingresar el código de cada centro");
+        }
+
+        if(!grafoCentros.existeVertice(codigoOrigen)){
+
+        }
+
         return Retorno.noImplementada();
     }
 
