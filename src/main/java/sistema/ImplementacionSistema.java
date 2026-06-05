@@ -4,6 +4,7 @@ import dominio.*;
 import interfaz.*;
 import tads.ABB.ABB;
 import tads.grafo.Grafo;
+import tads.grafo.ResultadoDijkstra;
 import tads.lista.ListaImp;
 
 public class ImplementacionSistema implements Sistema {
@@ -246,7 +247,25 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno viajeCostoMinimoDistancia(String codigoOrigen, String codigoDestino) {
-        return Retorno.noImplementada();
+        if (!parametrosValidos(codigoOrigen, codigoDestino)) {
+            return Retorno.error1("Debe ingresar el código de cada centro");
+        }
+
+        if(!grafoCentros.existeVertice(codigoOrigen)){
+            return Retorno.error2("El centro logístico de origen no está registrado");
+        }
+
+        if(!grafoCentros.existeVertice(codigoDestino)){
+            return Retorno.error3("El centro logístico de destino no está registrado");
+        }
+
+        ResultadoDijkstra resultado = grafoCentros.dijkstra(codigoOrigen, codigoDestino);
+
+        if(!resultado.isExisteCamino()) {
+            return Retorno.error4("No existe un camino entre ambos centros");
+        }
+
+        return Retorno.ok(resultado.getDistancia(), resultado.getCamino());
     }
 
     @Override
