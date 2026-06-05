@@ -37,4 +37,19 @@ public class Centro implements Comparable<Centro> {
     public int compareTo(Centro o) {
         return this.codigo.compareTo(o.codigo);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(codigo);
+        sb.append(";");
+        sb.append(nombre);
+        sb.append(";");
+        sb.append(departamento);
+        sb.append(";");
+        sb.append(direccion);
+
+        return sb.toString();
+    }
 }

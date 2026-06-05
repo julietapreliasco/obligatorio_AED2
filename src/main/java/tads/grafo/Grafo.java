@@ -1,6 +1,8 @@
 package tads.grafo;
 
 import dominio.Centro;
+import tads.cola.Cola;
+import tads.ABB.ABB;
 import tads.lista.ListaImp;
 
 public class Grafo {
@@ -160,4 +162,41 @@ public class Grafo {
 
         return retorno;
     }
+
+    //bfs por nivel
+    public ListaImp<Centro> centrosHastaCantidadConexiones(String codigoOrigen, int cantidad){
+        boolean[] visitados = new boolean[tope];
+
+        int inicio = obtenerPos(codigoOrigen);
+
+        Cola<Tupla> cola = new Cola<>();
+
+        ABB<Centro> centrosOrdenados = new ABB<>();
+
+        visitados[inicio] = true;
+
+        cola.encolar(new Tupla(inicio,0));
+
+        while(!cola.esVacia()){
+            Tupla tupla = cola.desencolar();
+
+            int pos = tupla.getPos();
+            int nivel = tupla.getNivel();
+
+            if (nivel < cantidad) {
+                for  (int j = 0; j < tope; j++) {
+                  if(matAdy[pos][j].isExiste() && !visitados[j]){
+
+                    cola.encolar( new Tupla(j, nivel +1) );
+
+                    visitados[j] = true;
+
+                    centrosOrdenados.insertar(vertices[j]);
+                  }
+                }
+            }
+        }
+        return centrosOrdenados.listarAsc();
+    }
+
 }
