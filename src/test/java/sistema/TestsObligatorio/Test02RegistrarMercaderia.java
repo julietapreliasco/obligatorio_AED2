@@ -1,10 +1,11 @@
-package sistema;
+package sistema.TestsObligatorio;
 
 import interfaz.Categoria;
 import interfaz.Retorno;
 import interfaz.Sistema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sistema.ImplementacionSistema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

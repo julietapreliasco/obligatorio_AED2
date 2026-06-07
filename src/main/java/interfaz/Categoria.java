@@ -1,4 +1,4 @@
-package dominio;
+package interfaz;
 
 import java.util.Arrays;
 import java.util.Objects;

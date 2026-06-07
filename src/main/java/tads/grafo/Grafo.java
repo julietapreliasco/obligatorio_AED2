@@ -175,6 +175,8 @@ public class Grafo {
 
         visitados[inicio] = true;
 
+        centrosOrdenados.insertar(vertices[inicio]);
+
         cola.encolar(new Tupla(inicio, 0));
 
         while (!cola.esVacia()) {
@@ -199,7 +201,7 @@ public class Grafo {
         return centrosOrdenados.listarAsc();
     }
 
-    public ResultadoDijkstra dijkstra(String codigoOrigen, String codigoDestino) {
+    public ResultadoDijkstra dijkstraDistancia(String codigoOrigen, String codigoDestino) {
         int[] distancias = new int[vertices.length];
         boolean[] visitados = new boolean[vertices.length];
         int[] anteriores = new int[vertices.length];
@@ -239,13 +241,59 @@ public class Grafo {
         }
 
         if (distancias[posDestino] == Integer.MAX_VALUE) {
-            return new ResultadoDijkstra(0, "", false);
+            return new ResultadoDijkstra(0, 0, "", false);
         }
 
         String camino = armarCamino(posOrigen, posDestino, anteriores);
-        return new ResultadoDijkstra(distancias[posDestino], camino, true);
+        return new ResultadoDijkstra(distancias[posDestino], 0, camino, true);
     }
 
+    public ResultadoDijkstra dijkstraTiempo(String codigoOrigen, String codigoDestino) {
+        int[] tiempos = new int[vertices.length];
+        boolean[] visitados = new boolean[vertices.length];
+        int[] anteriores = new int[vertices.length];
+
+        for (int i = 0; i < tiempos.length; i++) {
+            tiempos[i] = Integer.MAX_VALUE;
+            visitados[i] = false;
+            anteriores[i] = -1;
+        }
+
+        int posOrigen = this.obtenerPos(codigoOrigen);
+        int posDestino = this.obtenerPos(codigoDestino);
+
+        tiempos[posOrigen] = 0;
+
+        for (int i = 0; i < vertices.length; i++) {
+            int posVerMenorCosto = this.obtenerPosVerticeMenorCosto(tiempos, visitados);
+
+            if (posVerMenorCosto == -1) {
+                break;
+            }
+            visitados[posVerMenorCosto] = true;
+
+            if (posVerMenorCosto == posDestino) {
+                break;
+            }
+
+            for (int j = 0; j < vertices.length; j++) {
+                if (matAdy[posVerMenorCosto][j].isExiste() && !visitados[j]) {
+                    int nuevoTiempo = tiempos[posVerMenorCosto] + matAdy[posVerMenorCosto][j].getTiempo();
+                    if (tiempos[j] > nuevoTiempo) {
+                        tiempos[j] = nuevoTiempo;
+                        anteriores[j] = posVerMenorCosto;
+                    }
+                }
+            }
+        }
+
+        if (tiempos[posDestino] == Integer.MAX_VALUE) {
+            return new ResultadoDijkstra(0, 0, "", false);
+        }
+
+        String camino = armarCamino(posOrigen, posDestino, anteriores);
+        return new ResultadoDijkstra(0, tiempos[posDestino], camino, true);
+    }
 
     private int obtenerPosVerticeMenorCosto(int[] costos, boolean[] visitados) {
         int minPos = -1;
