@@ -52,7 +52,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(
-                "C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt",
+                "C01;Centro Montevideo;Montevideo;Av. 18 de Julio|C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt",
                 retorno.getValorString()
         );
     }
@@ -63,7 +63,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(
-                "C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
+                "C01;Centro Montevideo;Montevideo;Av. 18 de Julio|C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
                 retorno.getValorString()
         );
     }
@@ -74,7 +74,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(
-                "C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla|C06;Centro Rivera;Rivera;Sarandi",
+                "C01;Centro Montevideo;Montevideo;Av. 18 de Julio|C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla|C06;Centro Rivera;Rivera;Sarandi",
                 retorno.getValorString()
         );
     }
@@ -84,7 +84,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
         retorno = s.redCentrosPorCantidadDeConexiones("C01", 0);
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("", retorno.getValorString());
+        assertEquals("C01;Centro Montevideo;Montevideo;Av. 18 de Julio", retorno.getValorString());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(
-                "C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
+                "C01;Centro Montevideo;Montevideo;Av. 18 de Julio|C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
                 retorno.getValorString()
         );
     }
@@ -118,7 +118,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
             C02 -> C01
 
-            No debería aparecer C01 en el resultado.
+            Debería aparecer C01 en el resultado porque es el origen, pero solo una vez (sin duplicados debido al ciclo).
         */
 
         s.registrarConexion("C02", "C01", 100, 60);
@@ -127,7 +127,7 @@ public class Test11RedCentrosPorCantidadDeConexiones {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(
-                "C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
+                "C01;Centro Montevideo;Montevideo;Av. 18 de Julio|C02;Centro Canelones;Canelones;Ruta 5|C03;Centro Maldonado;Maldonado;Av. Roosevelt|C04;Centro Salto;Salto;Av. Uruguay|C05;Centro Colonia;Colonia;Rambla",
                 retorno.getValorString()
         );
     }

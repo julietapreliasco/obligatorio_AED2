@@ -259,7 +259,7 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error3("El centro logístico de destino no está registrado");
         }
 
-        ResultadoDijkstra resultado = grafoCentros.dijkstra(codigoOrigen, codigoDestino);
+        ResultadoDijkstra resultado = grafoCentros.dijkstraDistancia(codigoOrigen, codigoDestino);
 
         if(!resultado.isExisteCamino()) {
             return Retorno.error4("No existe un camino entre ambos centros");
@@ -270,6 +270,24 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno viajeCostoMinimoTiempo(String codigoOrigen, String codigoDestino) {
-        return Retorno.noImplementada();
+          if (!parametrosValidos(codigoOrigen, codigoDestino)) {
+            return Retorno.error1("Debe ingresar el código de cada centro");
+        }
+
+        if(!grafoCentros.existeVertice(codigoOrigen)){
+            return Retorno.error2("El centro logístico de origen no está registrado");
+        }
+
+        if(!grafoCentros.existeVertice(codigoDestino)){
+            return Retorno.error3("El centro logístico de destino no está registrado");
+        }
+
+        ResultadoDijkstra resultado = grafoCentros.dijkstraTiempo(codigoOrigen, codigoDestino);
+
+        if(!resultado.isExisteCamino()) {
+            return Retorno.error4("No existe un camino entre ambos centros");
+        }
+
+        return Retorno.ok(resultado.getTiempo(), resultado.getCamino());
     }
 }
