@@ -1,5 +1,11 @@
 package sistema;
 
+/**
+ Integrantes:
+ - Julieta Preliasco - 303847
+ - Florencia González - 341605
+*/
+
 import dominio.*;
 import interfaz.*;
 import tads.ABB.ABB;
