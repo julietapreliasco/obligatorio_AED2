@@ -3,7 +3,7 @@ package sistema;
 /**
  Integrantes:
  - Julieta Preliasco - 303847
- - Florencia González - 341605
+ - María Florencia González - 341605
 */
 
 import dominio.*;
